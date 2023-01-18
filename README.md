@@ -26,7 +26,7 @@ Hello,world
 
 ### やった内容
 
-1. hellowrld1.c
+1. helloworld1.c
 
    float型の数値をchar型の文字列として出力
 
