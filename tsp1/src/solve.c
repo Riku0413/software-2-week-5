@@ -8,8 +8,6 @@
 
 double solve(const City *city, int n, int *route, int *visited, int loop)
 {
-    // 初期解を何ループ作るか
-    // int loop = 10000;
     // 局所最適解リスト
     int min_route_list[loop][n];
     double min_sum_list[loop];
@@ -59,29 +57,48 @@ double solve(const City *city, int n, int *route, int *visited, int loop)
         min_sum_list[q] = sum_d_2;
 
         // 全入れ替えを試す
-        for (int k1 = 0; k1 < n - 1; k1++) {
-            for (int k2 = k1 + 1; k2 < n; k2++) {
-                tmp = route_2[k1];
-                route_2[k1] = route_2[k2];
-                route_2[k2] = tmp;
-                sum_d_2 = 0; // リセット
-                for (int i = 0 ; i < n ; i++) {
-                    const int c0 = route_2[i];
-                    const int c1 = route_2[(i+1)%n]; // nは0に戻る
-                    sum_d_2 += distance(city[c0],city[c1]);
-                }
-                if (sum_d_2 < min_sum_list[q]) {
-                    min_sum_list[q] = sum_d_2;
-                    for (int i = 0 ; i < n ; i++){
-                        min_route_list[q][i] = route_2[i];
+        int flag = 1;
+        // int count = 0;
+        while (flag == 1) {
+            // この回の基準の距離とルート
+            double sum_d_zero = min_sum_list[q];
+            for (int i = 0 ; i < n ; i++){
+                route_2[i] = min_route_list[q][i];
+            }
+
+            for (int k1 = 0; k1 < n - 1; k1++) {
+                for (int k2 = k1 + 1; k2 < n; k2++) {
+                    tmp = route_2[k1];
+                    route_2[k1] = route_2[k2];
+                    route_2[k2] = tmp;
+                    sum_d_2 = 0; // リセット
+                    // ある入れ替えパターンの距離を計算
+                    for (int i = 0 ; i < n ; i++) {
+                        const int c0 = route_2[i];
+                        const int c1 = route_2[(i+1)%n]; // nは0に戻る
+                        sum_d_2 += distance(city[c0],city[c1]);
+                    }
+                    // もし,最短が更新されるなら値を更新
+                    if (sum_d_2 < min_sum_list[q]) {
+                        min_sum_list[q] = sum_d_2;
+                        for (int i = 0 ; i < n ; i++){
+                            min_route_list[q][i] = route_2[i];
+                        }
+                    }
+                    // リセット
+                    tmp = route_2[k1];
+                    route_2[k1] = route_2[k2];
+                    route_2[k2] = tmp;
+                    if (k1 == (n - 2) && k2 == (n - 1)) {
+                        if (sum_d_zero == min_sum_list[q]) {
+                            flag = 0;
+                        }
                     }
                 }
-                // リセット
-                tmp = route_2[k1];
-                route_2[k1] = route_2[k2];
-                route_2[k2] = tmp;
             }
+            // count++;
         }
+        // printf("count = %d\n", count);
 
     }
 
