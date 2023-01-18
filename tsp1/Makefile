@@ -13,7 +13,7 @@ SRCS = $(wildcard $(SRCDIR)/*.c)
 OBJS = $(SRCS:%.c=%.o)
 
 
-TARGET = $(BINDIR)/tsp
+TARGET = $(BINDIR)/tsp1
 GENCITY = $(BINDIR)/gencity
 
 all: $(TARGET) $(GENCITY)

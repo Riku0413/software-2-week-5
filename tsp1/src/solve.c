@@ -6,34 +6,34 @@
 #include "map.h"
 #include "solve.h"
 
-double solve(const City *city, int n, int *route, int *visited)
+double solve(const City *city, int n, int *route, int *visited, int loop)
 {
-    // 以下はとりあえずダミー。ここに探索プログラムを実装する
-    // 現状は町の番号順のルートを回っているだけ
-    // 実際は再帰的に探索して、組み合わせが膨大になる。
-
-    int loop = 1000;
+    // 初期解を何ループ作るか
+    // int loop = 10000;
     // 局所最適解リスト
     int min_route_list[loop][n];
     double min_sum_list[loop];
     // 最終的な解
     double sum_d = 0;
 
+    srand((unsigned int)time(NULL));
+
     for (int q = 0; q < loop; q++) {
 
+        //
         // 1. ランダムな初期化
         int i, j, tmp;
         for (i = 0; i < n; i++) {
             route[i] = i;
             visited[i] = 1; // 訪問済みかチェック
         }
-        srand((unsigned int)time(NULL));
         for (i = 0; i < n; i++) {
             j = rand() % n;
             tmp = route[i];
             route[i] = route[j];
             route[j] = tmp;
         }
+        //
 
         double sum_d_2 = 0;
         for (int i = 0 ; i < n ; i++) {
@@ -42,7 +42,7 @@ double solve(const City *city, int n, int *route, int *visited)
             sum_d_2 += distance(city[c0],city[c1]);
         }
 
-        // こいつをこねくり回す
+        // これをこねくり回す
         int route_2[n];
         // int *route_2 = (int*)malloc(sizeof(int)*n);
 
@@ -51,7 +51,7 @@ double solve(const City *city, int n, int *route, int *visited)
         }
         // memcpy(route_2, route, sizeof(int)*n);
 
-        // こいつは暫定最短ルート
+        // これは暫定最短ルート
         for (int i = 0 ; i < n ; i++){
             min_route_list[q][i] = route[i];
         }

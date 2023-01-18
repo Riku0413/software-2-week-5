@@ -16,7 +16,7 @@ int main(int argc, char**argv)
     
     Map map = init_map(width, height);
     
-    if (argc != 2){
+    if (argc != 3){
 	fprintf(stderr, "Usage: %s <city file>\n", argv[0]);
 	exit(1);
     }
@@ -32,8 +32,9 @@ int main(int argc, char**argv)
     int *route = (int*)calloc(n, sizeof(int));
     // 訪れた町を記録するフラグ
     int *visited = (int*)calloc(n, sizeof(int));
-
-    const double d = solve(city,n,route,visited);
+     
+    int loop = atoi(argv[2]);
+    const double d = solve(city,n,route,visited,loop);
     plot_cities(map, city, n, route);
     printf("total distance = %f\n", d);
     for (int i = 0 ; i < n ; i++){

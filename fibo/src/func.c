@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <assert.h>
+#include "obj.h"
+
 struct matrix matrix_multiply(struct matrix a, struct matrix b) {
     struct matrix c;
     c.m[0][0] = a.m[0][0]*b.m[0][0] + a.m[0][1]*b.m[1][0];

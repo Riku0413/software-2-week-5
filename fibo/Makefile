@@ -5,7 +5,6 @@ INCLUDEDIR = include
 SRCDIR = src
 
 CFLAGS = -Wall -I$(INCLUDEDIR)
-LDLIBS = -lm
 
 # wildcard関数で SRCDIR以下のcファイルをリスト
 SRCS = $(wildcard $(SRCDIR)/*.c)
@@ -13,7 +12,7 @@ SRCS = $(wildcard $(SRCDIR)/*.c)
 OBJS = $(SRCS:%.c=%.o)
 
 
-TARGET = $(BINDIR)/knapsack1
+TARGET = $(BINDIR)/main
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
